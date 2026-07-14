@@ -97,7 +97,7 @@
     .store-hero {
       position: relative;
       height: 220px;
-      background-image: url('https://visitvisitfairfieldcounty.org/wp-content/uploads/2024/03/A-Js-Wingburger.jpg');
+      background-image: url('https://visitfairfieldcounty.org/wp-content/uploads/2024/03/A-Js-Wingburger.jpg');
       background-size: cover;
       background-position: center;
       color: white;
@@ -340,8 +340,8 @@
     <div class="reviews-grid" id="reviews-container"></div>
   </section>
 
-  <!-- Built-in scripts to prevent file linking issues -->
   <script>
+    // Fully integrated Menu Database populated from your uploaded screenshots (Best Sellers category removed)
     const menuData = [
       {
         category: "Appetizers",
@@ -494,6 +494,7 @@
       }
     ];
 
+    // Rich generation arrays to construct highly varied user reviews
     const namesList = [
       "Michael S.", "Sarah J.", "David K.", "Jessica M.", "Chris B.", "Amanda W.", "Jason D.", "Emily H.", 
       "James P.", "Robert C.", "Lisa M.", "Ryan T.", "Megan G.", "Kevin L.", "Rachel O.", "John D.", 
@@ -507,6 +508,7 @@
       "the French Onion Soup"
     ];
 
+    // Explicit sentiment responses mapped perfectly to their Star Ratings
     const reviewTemplates = {
       5: [
         "Absolutely loved [item]! It was packed with flavor and tasted incredibly fresh.",
@@ -520,7 +522,7 @@
         "[item] was delicious and cooked perfectly. Service was a bit busy, but totally worth the wait.",
         "Great fusion concept. Tried [item] and really enjoyed it. Will definitely order again.",
         "Really solid food. [item] had great flavor, just wished the portion was slightly bigger.",
-        "Super tasty! [item] was very satisfying, though the parking lot can get pretty packed during dinner rush.",
+        "Super tasty! [item] was very satisfying, though the parking lot can get pretty packed during peak hours.",
         "Excellent flavor profile on [item]. Just a tiny bit too salty for my taste, but still highly recommended.",
         "Good food, friendly staff, and [item] was great. A solid local choice."
       ],
@@ -545,27 +547,41 @@
       ]
     };
 
+    // Programmatically generate a realistic, randomized distribution of reviews
     let reviewsData = [];
     const totalReviewsToGen = 105;
 
     for (let i = 0; i < totalReviewsToGen; i++) {
       const name = namesList[i % namesList.length];
       const item = foodItems[Math.floor(Math.random() * foodItems.length)];
+      
+      // Determine star distribution
       let stars = 5;
       const roll = Math.random();
-      if (roll < 0.45) stars = 5;
-      else if (roll < 0.80) stars = 4;
-      else if (roll < 0.90) stars = 3;
-      else if (roll < 0.96) stars = 2;
-      else stars = 1;
+      if (roll < 0.45) {
+        stars = 5;
+      } else if (roll < 0.80) {
+        stars = 4;
+      } else if (roll < 0.90) {
+        stars = 3;
+      } else if (roll < 0.96) {
+        stars = 2;
+      } else {
+        stars = 1;
+      }
 
       const templatesGroup = reviewTemplates[stars];
       const rawTemplate = templatesGroup[Math.floor(Math.random() * templatesGroup.length)];
       const customizedText = rawTemplate.replace("[item]", item);
 
-      reviewsData.push({ author: name, stars: stars, text: customizedText });
+      reviewsData.push({
+        author: name,
+        stars: stars,
+        text: customizedText
+      });
     }
 
+    // Tab Switching System
     function switchTab(tabId, btn) {
       document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
@@ -577,6 +593,7 @@
       btn.classList.add('active');
     }
 
+    // Dynamic Menu Rendering
     function renderMenu() {
       const sidebar = document.getElementById('sidebar-categories');
       const feed = document.getElementById('menu-feed-content');
@@ -585,6 +602,7 @@
       feed.innerHTML = "";
 
       menuData.forEach((cat, index) => {
+        // Sidebar tab
         const li = document.createElement('li');
         li.textContent = cat.category;
         if (index === 0) li.classList.add('active');
@@ -595,11 +613,12 @@
         };
         sidebar.appendChild(li);
 
+        // Menu Sections
         const section = document.createElement('div');
         section.id = `category-${index}`;
         section.innerHTML = `
           <h3 class="category-title">${cat.category}</h3>
-          <div style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color);"></div>
+          ${cat.subtitle ? `<p class="category-subtitle">${cat.subtitle}</p>` : `<div style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color);"></div>`}
         `;
 
         const grid = document.createElement('div');
@@ -622,6 +641,7 @@
       });
     }
 
+    // Dynamic Reviews Rendering
     function renderReviews() {
       const container = document.getElementById('reviews-container');
       container.innerHTML = "";
@@ -641,6 +661,7 @@
       });
     }
 
+    // Initialize application execution
     renderMenu();
     renderReviews();
   </script>
